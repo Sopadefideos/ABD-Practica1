@@ -18,5 +18,3 @@ class registro:
         self.resgister_header["status"] = 0
         self.resgister_header["id"] = id
     
-    
-        

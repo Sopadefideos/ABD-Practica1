@@ -44,3 +44,12 @@ class ASFile:
             return False
         else:
             return True
+
+    def add(self, register, file):
+        file.loc[len(file.index)]=[register.anotacion, register.val1, register.val2, register.val3, register.val4]
+
+    def search(self, pos, file):
+        if(len(file.index) > int(pos) and int(pos) >=0):
+            value = file.loc[[int(pos)]]
+            return value, int(pos)
+            
