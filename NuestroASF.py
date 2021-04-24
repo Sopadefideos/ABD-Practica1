@@ -15,23 +15,23 @@ class ASFile:
             }
         self.block = {
             'block_header_id': 0,
-            'registers': []
+            'registers': pd.DataFrame()
         }
 
     def open(self, path): 
         df = pd.read_csv(path)
-        print('**********************FILE***********************')
-        print(df.to_string())
-        print('*************************************************'+'\n')
-        return df
+        self.block['registers'] = df
+        self.block['registers']['status'] = 0
+        self.list()
     
-    def first(self, file, pos):
-        first = file.loc[[pos]]
-        return first, pos
+    def first(self):
+        file = self.block['registers']
+        first = file.loc[[0]]
+        return first, 0
 
-    def next(self, file, pos):
+    def next(self, pos):
         pos += 1
-        value = file.loc[[pos]]
+        value = self.block['registers'].loc[[pos]]
         return value, pos
 
     def pretty_print_row(self, row, pos):
@@ -39,17 +39,35 @@ class ASFile:
          print(row)
          print('*************************************************'+'\n')
     
-    def end(self, file, pos):
-        if(len(file.index) != pos):
+    def end(self, pos):
+        if(len(self.block['registers'].index) != pos):
             return False
         else:
             return True
 
-    def add(self, register, file):
-        file.loc[len(file.index)]=[register.anotacion, register.val1, register.val2, register.val3, register.val4]
+    def add(self, register):
+        self.block['registers'].loc[len(self.block['registers'].index)]=[register.anotacion, register.val1, register.val2, register.val3, register.val4]
 
-    def search(self, pos, file):
-        if(len(file.index) > int(pos) and int(pos) >=0):
-            value = file.loc[[int(pos)]]
+    def search(self, pos):
+        if(len(self.block['registers'].index) > int(pos) and int(pos) >=0):
+            value = self.block['registers'].loc[[int(pos)]]
             return value, int(pos)
+
+    def modify(self, register, pos):
+        self.block['registers'].loc[pos]=[register.anotacion, register.val1, register.val2, register.val3, register.val4]
+
+    def delete(self, pos):
+        newfile = self.block['registers'].drop(labels=int(pos), axis=0)
+        self.block['registers'] = newfile
+
+    def list(self):
+        simple_file = self.block['registers'].iloc[:, 0:5]
+        print('**********************FILE***********************')
+        print(simple_file)
+        print('*************************************************'+'\n')
+
+    def list_row(self):
+        print('**********************FILE******************************')
+        print(self.block['registers'])
+        print('********************************************************'+'\n')
             
