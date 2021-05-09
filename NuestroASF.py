@@ -5,14 +5,15 @@ import pandas as pd
 class ASFile:
     def __init__(self):
         self.header_file = {
-            "tam_head_file": 0,
-            "num_registers:": 0,
-            "tam_block": 0,
-            "tam_head_block": 0,
-            "tam_head_register": 0,
-            "num_atributte_register": 0,
-            "types_atributte": [],
-            "tam_types_atributte": [],
+            "tam_head_file": 100,
+            "num_registers:": 50,
+            "tam_block": 10,
+            "tam_head_block": 50,
+            "tam_head_register": 25,
+            "num_atributte_register": 5,
+            # 5 = varchar, 3 = int, 4 = float
+            "types_atributte": [5, 3, 3, 4, 4],
+            "tam_types_atributte": [12, 2, 2, 4, 4],
         }
         self.block = {"block_header_id": 0, "registers": pd.DataFrame()}
 
