@@ -1,6 +1,6 @@
 # ABD-Practica1
 
-_Proyect of ABD for lectures of UGR course 2021. Author: Antonio Marfil Sanchez_
+_Proyect of ABD´s lectures of UGR course 2021. Author: Antonio Marfil Sanchez_
 
 ## Installation 🚀
 
