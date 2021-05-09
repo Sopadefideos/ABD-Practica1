@@ -20,7 +20,6 @@ class ASFile:
         df = pd.read_csv(path)
         self.block["registers"] = df
         self.block["registers"]["status"] = 0
-        self.list()
 
     def first(self):
         file = self.block["registers"]
@@ -76,7 +75,30 @@ class ASFile:
         print(simple_file)
         print("*************************************************" + "\n")
 
-    def list_row(self):
+    def list_raw(self):
         print("**********************FILE******************************")
         print(self.block["registers"])
         print("********************************************************" + "\n")
+
+    def reorganize(self, path_option):
+        if path_option == True:
+            path = input("Insert the path of the file: ")
+            df = pd.read_csv(path)
+            df.sort_values(by=["int1"], inplace=True)
+            self.block["registers"] = df
+            self.block["registers"]["status"] = 0
+        else:
+            self.block["registers"].sort_values(by=["int1"], inplace=True)
+
+    def close(self):
+        self.block["registers"].iloc[:, 0:5].to_csv(
+            r"data/output.csv", index=False, header=True
+        )
+
+    def delete_by_file(self, path):
+        df_delete = pd.read_csv(path)
+        for i in range(len(df_delete)):
+            self.block["registers"] = self.block["registers"][
+                self.block["registers"].varchar != df_delete["varchar"][i]
+            ]
+        self.list()
